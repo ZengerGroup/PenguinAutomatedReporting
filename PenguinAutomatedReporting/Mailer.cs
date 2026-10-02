@@ -16,12 +16,14 @@ namespace PenguinAutomatedReporting
             Client = ConfigureSMTP();
             Message = ConfigureMessage();
         }
-        public void SendMail(string xlPath)
+        public void SendMail(string livePath, string shippedPath)
         {
             Message.Body = BuildMessage();
-            FileStream FS = new FileStream(xlPath, FileMode.Open, FileAccess.Read);
-            ContentType CT = new ContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            Message.Attachments.Add(new Attachment(FS, Path.GetFileName(xlPath), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            using FileStream liveStream = new FileStream(livePath, FileMode.Open, FileAccess.Read);
+            using FileStream shippedStream = new FileStream(shippedPath, FileMode.Open, FileAccess.Read);
+            //ContentType CT = new ContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            Message.Attachments.Add(new Attachment(liveStream, Path.GetFileName(livePath), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            Message.Attachments.Add(new Attachment(shippedStream, Path.GetFileName(shippedPath), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             Client.Send(Message);
         }
@@ -45,7 +47,7 @@ namespace PenguinAutomatedReporting
         }
         private string BuildMessage()
         {
-            string message = "Please find attached production report.";
+            string message = "Please find attached production reports for live and shipped POs.";
             return message;
         }
     }

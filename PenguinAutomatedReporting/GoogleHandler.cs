@@ -51,17 +51,9 @@ namespace PenguinAutomatedReporting
                 Logger.ErrorExit([e.Message], 15);
             }
         }
-        public async Task<IList<IList<object>>> GetReportingData()
+        public async Task<IList<IList<object>>> GetSheetData(string sheetName)
         {
-            SpreadsheetsResource.ValuesResource.GetRequest request = Sheets.Spreadsheets.Values.Get(Configurator.SheetId, $"Reporting");
-            ValueRange response = await request.ExecuteAsync();
-            IList<IList<object>> values = response.Values;
-            if (values != null & values.Count > 0) return values;
-            else return null;
-        }
-        public async Task<IList<IList<object>>> GetJobData()
-        {
-            SpreadsheetsResource.ValuesResource.GetRequest request = Sheets.Spreadsheets.Values.Get(Configurator.SheetId, $"Jobs");
+            SpreadsheetsResource.ValuesResource.GetRequest request = Sheets.Spreadsheets.Values.Get(Configurator.SheetId, sheetName);
             ValueRange response = await request.ExecuteAsync();
             IList<IList<object>> values = response.Values;
             if (values != null & values.Count > 0) return values;

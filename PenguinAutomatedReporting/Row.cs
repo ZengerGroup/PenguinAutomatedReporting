@@ -27,7 +27,8 @@ namespace PenguinAutomatedReporting
         public string DateReceived;
         public string Color;
         public string Stock;
-        public string Finish;
+        public string Finish1;
+        public string Finish2;
         public string Status;
         public string ShipOnDate;
         public string CustRefNumber;
@@ -48,21 +49,37 @@ namespace PenguinAutomatedReporting
             ShipTo = reportingData[10].ToString() ?? "";
             CSR = reportingData[11].ToString() ?? "";
             CustRefNumber = reportingData[12].ToString() ?? "";
-            ZengerJob = reportingData[13].ToString() ?? "";
             TypeOfFormat = reportingData[14].ToString() ?? "";
         }
         public void IngestJobData(IList<object> jobData)
         {
-            if (jobData.Count < 15) jobData = AddBlanks(jobData, 15);
+            if (jobData.Count < 16) jobData = AddBlanks(jobData, 16);
+            ZengerJob = jobData[2].ToString() ?? "";
             DateReceived = jobData[0].ToString() ?? "";
-            Buyer = jobData[2].ToString() ?? "";
+            Buyer = jobData[3].ToString() ?? "";
             Color = jobData[7].ToString() ?? "";
             Stock = jobData[8].ToString() ?? "";
-            Finish = jobData[9].ToString() ?? "";
-            Status = jobData[11].ToString() ?? "";
-            RequestedDeliveryDate = jobData[12].ToString() ?? "";
-            RevisedDate = jobData[13].ToString() ?? "";
-            ShipOnDate = jobData[14].ToString() ?? "";
+            Finish1 = jobData[9].ToString() ?? "";
+            Finish2 = jobData[10].ToString() ?? "";
+            Status = jobData[12].ToString() ?? "";
+            RequestedDeliveryDate = jobData[13].ToString() ?? "";
+            RevisedDate = jobData[14].ToString() ?? "";
+            ShipOnDate = jobData[15].ToString() ?? "";
+        }
+        public void IngestShippedData(IList<object> shippedData)
+        {
+            if (shippedData.Count < 16) shippedData = AddBlanks(shippedData, 16);
+            ZengerJob = shippedData[4].ToString() ?? "";
+            DateReceived = shippedData[0].ToString() ?? "";
+            Buyer = shippedData[2].ToString() ?? "";
+            Color = shippedData[8].ToString() ?? "";
+            Stock = shippedData[9].ToString() ?? "";
+            Finish1 = shippedData[10].ToString() ?? "";
+            Finish2 = shippedData[11].ToString() ?? "";
+            Status = shippedData[13].ToString() ?? "";
+            RequestedDeliveryDate = shippedData[14].ToString() ?? "";
+            RevisedDate = "";
+            ShipOnDate = shippedData[15].ToString() ?? "";
         }
         private IList<object> AddBlanks(IList<object> data, int desiredCount)
         {
